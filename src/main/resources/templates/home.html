@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kids Chore App</title>
+</head>
+<body>
+
+<h1>Kids Chore Dashboard</h1>
+
+<h2>Total Points: <span th:text="${totalPoints}"></span></h2>
+
+<h3>Chores</h3>
+<ul>
+    <li th:each="chore : ${chores}">
+        <span th:text="${chore.name}"></span>
+        -
+        <span th:text="${chore.points}"></span> pts
+    </li>
+</ul>
+
+<h3>Rewards</h3>
+<ul>
+    <li th:each="reward : ${rewards}">
+        <span th:text="${reward.name}"></span>
+        -
+        <span th:text="${reward.pointsRequired}"></span> pts
+    </li>
+</ul>
+
+<a href="/admin">Admin Page</a>
+
+</body>
+</html>

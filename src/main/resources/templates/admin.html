@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+</head>
+<body>
+
+<h1>Parent Admin Dashboard</h1>
+
+<h2>Add Chore</h2>
+
+<form method="post" action="/admin/chore">
+    Name: <input type="text" name="name" />
+    Points: <input type="number" name="points" />
+    <button type="submit">Save</button>
+</form>
+
+<h2>Add Reward</h2>
+
+<form method="post" action="/admin/reward">
+    Name: <input type="text" name="name" />
+    Points Required: <input type="number" name="pointsRequired" />
+    <button type="submit">Save</button>
+</form>
+
+<a href="/">Back Home</a>
+
+</body>
+</html>
