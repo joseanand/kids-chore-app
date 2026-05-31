@@ -1,16 +1,16 @@
 package com.example.kidsapp.config;
 
+import com.example.kidsapp.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +23,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 1. Allow the login page and the javascript bundle to load freely
                         .requestMatchers("/login", "/bundle.js", "/static/**", "/favicon.ico").permitAll()
-                        // 2. Protect everything else (including "/" and our APIs)
+                        .requestMatchers("/api/parent/**").hasRole("PARENT")
+                        .requestMatchers("/api/kid/**").hasAnyRole("KID", "PARENT")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -40,19 +41,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails kid = User.withDefaultPasswordEncoder()
-                .username("kid")
-                .password("stars")
-                .roles("KID")
-                .build();
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return username -> userRepository.findByUsername(username)
+                .map(u -> User.withUsername(u.getUsername())
+                        .password(u.getPassword())
+                        .authorities(u.getRole()) // Assumes roles are stored as "ROLE_KID" / "ROLE_PARENT"
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    }
 
-        UserDetails parent = User.withDefaultPasswordEncoder()
-                .username("parent")
-                .password("superboss")
-                .roles("PARENT")
-                .build();
-
-        return new InMemoryUserDetailsManager(kid, parent);
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        // Plaintext fallback for kid-friendly simplicity. Use BCrypt for real production!
+        return NoOpPasswordEncoder.getInstance();
     }
 }

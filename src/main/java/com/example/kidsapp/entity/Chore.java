@@ -10,6 +10,14 @@ public class Chore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String taskName;
+    private String dayOfWeek; // e.g., "Monday"
+    private int points;
+    private boolean completed;
+    private boolean rewardItem; // true if this represents a redemption reward
+
+    // Links this chore/reward setup to a specific kid's profile
+    private String assignedToUsername;
 
     public String getDayOfWeek() {
         return dayOfWeek;
@@ -59,9 +67,11 @@ public class Chore {
         this.rewardItem = rewardItem;
     }
 
-    private String taskName;
-    private String dayOfWeek; // e.g., "Monday"
-    private int points;
-    private boolean completed;
-    private boolean rewardItem; // true if this represents a redemption reward
+    public String getAssignedToUsername() {
+        return assignedToUsername;
+    }
+
+    public void setAssignedToUsername(String assignedToUsername) {
+        this.assignedToUsername = assignedToUsername;
+    }
 }
