@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  color: #333;
+}
+.app-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
+.app-header { text-align: center; background: #fff; border-radius: 20px; padding: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+.role-selector .btn { font-size: 1.2rem; margin: 10px; padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+.kid-btn { background: #4caf50; color: white; }
+.parent-btn { background: #ff9800; color: white; }
+.score-banner { background: #ffeb3b; font-size: 1.5rem; text-align: center; font-weight: bold; padding: 15px; border-radius: 15px; margin: 20px 0; }
+.tab-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+.tab-btn { padding: 12px 25px; font-size: 1.1rem; border-radius: 25px; border: 2px solid #fff; cursor: pointer; background: #2196f3; color: white; }
+.tab-btn.active { background: #e91e63; }
+.content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); border: 4px solid #ffeb3b; transition: transform 0.2s; }
+.card:hover { transform: scale(1.03); }
+.card.done { opacity: 0.6; background: #e8f5e9; border-color: #4caf50; }
+.setup-form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; background: white; padding: 25px; border-radius: 20px; }
+.setup-form input, .setup-form select { padding: 10px; border-radius: 8px; border: 2px solid #ccc; font-size: 1rem; }
+.submit-btn { background: #e91e63; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 1.2rem; }
+/* Add these styles to the bottom of your existing styles.css file */
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logout-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #b71c1c;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.logout-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #b71c1c;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 600px) {
+  .header-top {
+    flex-direction: column;
+    text-align: center;
+  }
+}
