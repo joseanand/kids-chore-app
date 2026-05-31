@@ -1,5 +1,6 @@
 package com.example.kidsapp.controller;
 
+import com.example.kidsapp.config.FamilyProperties;
 import com.example.kidsapp.entity.Chore;
 import com.example.kidsapp.entity.User;
 import com.example.kidsapp.repository.ChoreRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,6 +19,8 @@ public class ChoreController {
 
     @Autowired private ChoreRepository choreRepository;
     @Autowired private UserRepository userRepository;
+    // Injecting the configurations supplied by your gitignored properties file
+    @Autowired private FamilyProperties familyProperties;
 
     // Helper to extract whoever is currently playing the game
     private String getLoggedInUsername() {
@@ -26,15 +30,31 @@ public class ChoreController {
     // --- SEED SYSTEM (Creates standard family configuration if database is empty) ---
     @PostConstruct
     public String initDefaultFamily() {
-        if(userRepository.count() == 0) {
-            User mom = new User(); mom.setUsername("steffi"); mom.setPassword("superboss"); mom.setRole("ROLE_PARENT");
-            User dad = new User(); dad.setUsername("jose"); dad.setPassword("superboss"); dad.setRole("ROLE_PARENT");
-            User kid1 = new User(); kid1.setUsername("erin"); kid1.setPassword("erin16"); kid1.setRole("ROLE_KID");
-            User kid2 = new User(); kid2.setUsername("odin"); kid2.setPassword("odin19"); kid2.setRole("ROLE_KID");
-            userRepository.saveAll(List.of(mom, dad, kid1, kid2));
-            return "Family Database Bootstrapped! Try logging in as 'alex' or 'mom'.";
+        if (userRepository.count() == 0) {
+            List<User> initialUsers = new ArrayList<>();
+
+            // Seed Parents dynamically
+            for (FamilyProperties.UserProfile p : familyProperties.getParents()) {
+                User parent = new User();
+                parent.setUsername(p.getUsername());
+                parent.setPassword(p.getPassword());
+                parent.setRole("ROLE_PARENT");
+                initialUsers.add(parent);
+            }
+
+            // Seed Kids dynamically
+            for (FamilyProperties.UserProfile k : familyProperties.getKids()) {
+                User kid = new User();
+                kid.setUsername(k.getUsername());
+                kid.setPassword(k.getPassword());
+                kid.setRole("ROLE_KID");
+                initialUsers.add(kid);
+            }
+
+            userRepository.saveAll(initialUsers);
+            return "Family Database Bootstrapped cleanly from properties configuration!";
         }
-        return "Database already has members.";
+        return "Database already contains family members.";
     }
 
     // --- KID ENDPOINTS ---
