@@ -13,7 +13,7 @@ public class BackupScheduler {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Scheduled(fixedRate = 3600000, initialDelay = 30000) // Every 1 Hour
+    @Scheduled(fixedRate = 600000, initialDelay = 30000) // Every 10 mintues
     public void backupDatabase() {
         jdbcTemplate.execute("SCRIPT TO 'backup.sql'");
         System.out.println("Database backup completed.");
