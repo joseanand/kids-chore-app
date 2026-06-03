@@ -13,6 +13,7 @@ public class Chore {
     private String taskName;
     private String dayOfWeek; // e.g., "Monday"
     private int points;
+    @Transient
     private boolean completed;
     private boolean rewardItem; // true if this represents a redemption reward
 

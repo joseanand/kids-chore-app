@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import KidDashboard from './components/KidDashboard';
 import ParentDashboard from './components/ParentDashboard';
 import './styles.css';
 
 export default function App() {
   const [role, setRole] = useState<'KID' | 'PARENT' | null>(null);
+  const [username, setUsername] = useState('');
+  const [balancePoints, setBalancePoints] = useState(0); // <-- Add state for tracking balance
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    // Creating a form submit or POST request to Spring Security's default /logout
-    fetch('/logout', { method: 'POST' })
-      .then(() => {
-        // Redirect back to the login page cleanly
-        window.location.href = '/login';
+  const fetchUserInfo = () => {
+    fetch('/api/user/me')
+      .then(res => res.json())
+      .then(data => {
+        setRole(data.role);
+        setUsername(data.username);
+        setBalancePoints(data.balancePoints); // <-- Store the live balance
+        setLoading(false);
       })
-      .catch(err => console.error("Logout failed:", err));
+      .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  const handleQuitGame = () => {
+    fetch('/logout', { method: 'POST' }).then(() => {
+      window.location.href = '/login';
+    });
+  };
+
+  if (loading) {
+    return <div className="loading-screen">✨ Loading Quest Map... ✨</div>;
+  }
+
+  const handleHardRefresh = () => {
+    // Forces a clean browser reload, fetching fresh assets straight from the server
+    window.location.reload();
   };
 
   return (
@@ -21,21 +45,34 @@ export default function App() {
       <header className="app-header">
         <div className="header-top">
           <h1>✨ ChoreQuest Adventure! ✨</h1>
-          <button className="logout-btn" onClick={handleLogout}>🚪 Quit Game (Logout)</button>
-        </div>
-        <div className="role-selector">
-          <button className="btn kid-btn" onClick={() => setRole('KID')}>👦 Kid Mode</button>
-          <button className="btn parent-btn" onClick={() => setRole('PARENT')}>🔑 Parent Admin</button>
+          <div className="header-right">
+            <span className="user-badge">👤 Player: {username.toUpperCase()} ({role})</span>
+           <div className="system-actions-group">
+             <button
+               type="button"
+               className="system-btn hard-refresh-btn"
+               onClick={handleHardRefresh}
+             >
+               🔄 Hard Refresh
+             </button>
+
+             <button
+               type="button"
+               className="system-btn quit-game-btn"
+               onClick={handleQuitGame} // Your existing quit handler
+             >
+               🛑 Quit Game
+             </button>
+           </div>
+          </div>
         </div>
       </header>
       <main className="main-content">
-        {role === 'KID' && <KidDashboard />}
-        {role === 'PARENT' && <ParentDashboard />}
-        {!role && (
-          <div className="welcome-card">
-            <h2>Welcome to your daily adventure map! Select who you are to start earning golden tokens!</h2>
-          </div>
+        {/* Pass down the live balance and a refresh trigger to the Kid Dashboard */}
+        {role === 'KID' && (
+          <KidDashboard staticBalance={balancePoints} refreshUserPoints={fetchUserInfo} />
         )}
+        {role === 'PARENT' && <ParentDashboard />}
       </main>
     </div>
   );

@@ -102,3 +102,537 @@ body {
   box-shadow: 0 4px 0 #1976d2;
   transform: translateY(-2px);
 }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.user-badge {
+  background: #f0f0f0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.parent-scoreboard {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  border: 3px solid #ff9800;
+}
+.scoreboard-grid {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.score-card-mini {
+  background: #fff8e1;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid #ffe082;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+}
+.kid-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.kid-points-total {
+  color: #e91e63;
+  font-weight: bold;
+}
+.loading-screen {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 100px;
+  font-weight: bold;
+}
+
+.bonus-container {
+  max-width: 500px;
+  margin: 25px auto 0 auto;
+  background: #fff3e0;
+  padding: 20px;
+  border-radius: 20px;
+  border: 3px dashed #ff9800;
+}
+.bonus-container h3 {
+  margin-top: 0;
+  color: #e65100;
+  text-align: center;
+}
+.bonus-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bonus-inputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+.bonus-input-field {
+  width: 80px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid #ffb74d;
+  font-size: 1.1rem;
+  text-align: center;
+}
+.bonus-submit-btn {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #e65100;
+  transition: transform 0.1s;
+}
+.bonus-submit-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #e65100;
+}
+
+/* Special formatting for the all-days button option */
+.all-days-card {
+  background: #e8f5e9 !important;
+  border-color: #81c784 !important;
+  color: #2e7d32;
+}
+
+.all-days-card:has(input:checked) {
+  background: #c8e6c9 !important;
+  border-color: #4caf50 !important;
+  box-shadow: 0 4px 0 #2e7d32 !important;
+}
+
+/* --- Global Kid Selector Formatting --- */
+.global-kid-selector {
+  background: #ede7f6;
+  padding: 15px 20px;
+  border-radius: 15px;
+  border: 3px solid #673ab7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.global-kid-selector label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4527a0;
+  margin: 0;
+}
+
+.styled-global-select {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 2px solid #673ab7;
+  background-color: white;
+  cursor: pointer;
+  color: #311b92;
+  outline: none;
+}
+
+/* Visually highlight the currently selected kid on the mini scoreboard card */
+.active-focus {
+  border-color: #673ab7 !important;
+  background: #f3e5f5 !important;
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(103, 58, 183, 0.2);
+}
+
+.highlight-target {
+  color: #673ab7;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #ffb74d;
+}
+
+.setup-form h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* --- Scoreboard Header & Backup Button --- */
+.scoreboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.scoreboard-header h3 {
+  margin: 0;
+}
+
+.backup-action-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #2e7d32;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.backup-action-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #2e7d32;
+}
+
+/* --- Weekly Overview Schedule Layout --- */
+.weekly-overview-container {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  border: 3px solid #2196f3;
+}
+
+.weekly-overview-container h3 {
+  margin-top: 0;
+  color: #0d47a1;
+  border-bottom: 2px solid #e3f2fd;
+  padding-bottom: 8px;
+}
+
+.weekly-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Fallback for smaller/tablet screens */
+@media (max-width: 900px) {
+  .weekly-calendar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+.calendar-column {
+  background: #fcfcfc;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+
+  /* FIX: Ensure columns never grow larger than their allocated 1/7 fraction */
+  overflow: hidden;
+}
+
+.calendar-column h4 {
+  margin: 0 0 8px 0;
+  text-align: center;
+  color: #333;
+  font-size: 0.95rem;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 4px;
+}
+
+.calendar-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mini-task-item {
+  background: #fff3e0;
+  border: 1px solid #ffe0b2;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns points pill to the top if text moves to line 2 */
+  font-weight: 500;
+  gap: 6px;                /* Keeps a safe safety margin between text and points tag */
+
+  /* FIX: Forces the task card block container to respect column boundaries */
+  word-break: break-word;
+}
+
+.task-text {
+  /* FIX: Replaces nowrap with standard wrapping properties */
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  flex: 1;                 /* Allows text to take all available width, pushing points right */
+
+  /* OPTIONAL: Limit text to 3 visible lines max before showing an ellipsis (...) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-pts {
+  color: #e65100;
+  font-weight: bold;
+  white-space: nowrap;     /* Prevents the points badge itself from splitting up */
+  font-size: 0.75rem;
+  background: rgba(230, 81, 0, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* Green highlight formatting for completed chores */
+.task-done {
+  background: #e8f5e9 !important;
+  border-color: #c8e6c9 !important;
+  text-decoration: line-through;
+  color: #757575;
+}
+
+.task-done .task-pts {
+  color: #4caf50 !important;
+}
+
+.no-tasks-text {
+  font-size: 0.75rem;
+  color: #9e9e9e;
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* --- Mass Deployment Notice Banner --- */
+.mass-deploy-alert-banner {
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+  color: #e65100;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  text-align: center;
+  margin-bottom: 25px;
+  animation: pulseHighlight 2s infinite ease-in-out;
+}
+
+@keyframes pulseHighlight {
+  0% { box-shadow: 0 0 0 0px rgba(255, 152, 0, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(255, 152, 0, 0); }
+  100% { box-shadow: 0 0 0 0px rgba(255, 152, 0, 0); }
+}
+
+/* --- Kid Dashboard: Chore Completion Button --- */
+.claim-btn {
+  background: #4caf50; /* Vibrant video-game green */
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+
+  /* Gives it a 3D tactile button feel */
+  box-shadow: 0 4px 0 #2e7d32;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Hover effects */
+.claim-btn:hover {
+  background: #66bb6a;
+}
+
+/* Active "Pressed Down" state animation */
+.claim-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #2e7d32;
+}
+
+/* Style for the text that replaces the button once clicked */
+.complete-status {
+  margin-top: 12px;
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 1.05rem;
+  text-align: center;
+  background: #e8f5e9;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px dashed #81c784;
+}
+
+/* --- Pending States and Approval Cards --- */
+.pending-status {
+  margin-top: 12px;
+  color: #f57c00;
+  font-weight: bold;
+  background: #fff3e0;
+  padding: 6px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px dashed #ffb74d;
+}
+
+.approval-queue-box {
+  background: #f1f8e9;
+  padding: 15px;
+  border-radius: 12px;
+  border: 3px solid #81c784;
+  margin-bottom: 25px;
+}
+
+.approval-card {
+  background: white;
+  border: 1px solid #c8e6c9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.approve-action-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.point-tag-mini {
+  background: #e3f2fd;
+  color: #0d47a1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-size: 0.85rem;
+}
+
+/* --- System Actions Alignment Group --- */
+.system-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Smooth spacing between both system control modules */
+}
+
+.system-btn {
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Hard Refresh Button Styling */
+.hard-refresh-btn {
+  background: #0288d1; /* Deep ocean blue */
+  color: white;
+  box-shadow: 0 4px 0 #01579b;
+}
+
+.hard-refresh-btn:hover {
+  background: #03a9f4;
+}
+
+.hard-refresh-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #01579b;
+}
+
+/* Ensuring your Quit Game button shares the same physical button style structure */
+.quit-game-btn {
+  background: #d32f2f; /* Deep crimson red */
+  color: white;
+  box-shadow: 0 4px 0 #5d0011;
+}
+
+.quit-game-btn:hover {
+  background: #ef5350;
+}
+
+.quit-game-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #5d0011;
+}
+
+/* --- Editable Points Approval Styles --- */
+.approval-card {
+  background: white;
+  border: 1px solid #c8e6c9;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.task-review-quote {
+  font-style: italic;
+  color: #555;
+}
+
+.approval-action-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.override-input-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #4caf50;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.points-override-field {
+  width: 60px;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 2px solid #81c784;
+  text-align: center;
+  color: #2e7d32;
+  outline: none;
+}
+
+.points-override-field:focus {
+  border-color: #4caf50;
+  background: #f1f8e9;
+}

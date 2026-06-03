@@ -6,12 +6,21 @@ interface Item {
   dayOfWeek: string;
   points: number;
   completed: boolean;
+  pending: boolean;
   rewardItem: boolean;
 }
 
-export default function KidDashboard() {
+const DAYS_MAP = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+interface KidDashboardProps {
+  staticBalance: number;
+  refreshUserPoints: () => void;
+}
+
+export default function KidDashboard({ staticBalance, refreshUserPoints }: KidDashboardProps) {
   const [items, setItems] = useState<Item[]>([]);
   const [activeTab, setActiveTab] = useState<'CHORES' | 'REWARDS'>('CHORES');
+  const currentDay = DAYS_MAP[new Date().getDay()];
 
   useEffect(() => {
     fetch('/api/kid/chores')
@@ -19,46 +28,60 @@ export default function KidDashboard() {
       .then(data => setItems(data));
   }, []);
 
+
+  const todaysChores = items.filter(i => !i.rewardItem && i.dayOfWeek === currentDay);
+  const rewardItems = items.filter(i => i.rewardItem);
+
   const completeChore = (id: number) => {
     fetch(`/api/kid/complete/${id}`, { method: 'POST' })
       .then(() => {
-        setItems(items.map(item => item.id === id ? { ...item, completed: true } : item));
+        // Temporarily track locally that it's submitted
+        setItems(items.map(item => item.id === id ? { ...item, pending: true } : item));
       });
   };
-
-  const totalPoints = items
-    .filter(i => !i.rewardItem && i.completed)
-    .reduce((sum, current) => sum + current.points, 0);
 
   return (
     <div className="dashboard kid-zone">
       <div className="score-banner">
-        ⭐ You Have Accumulated: <span className="points-badge">{totalPoints} Points</span> ⭐
+        {/* FIX: Now securely displays the actual database balance (Chores + Bonus Points) */}
+        ⭐ Accumulated Balance: <span className="points-badge">{staticBalance} Points</span> ⭐
+        <div className="today-indicator">📅 Today's Realm: <strong>{currentDay}</strong></div>
       </div>
 
       <div className="tab-bar">
-        <button className={`tab-btn ${activeTab === 'CHORES' ? 'active' : ''}`} onClick={() => setActiveTab('CHORES')}>📜 My Daily Quests</button>
-        <button className={`tab-btn ${activeTab === 'REWARDS' ? 'active' : ''}`} onClick={() => setActiveTab('REWARDS')}>🎁 Claim Rewards</button>
+        <button className={`tab-btn ${activeTab === 'CHORES' ? 'active' : ''}`} onClick={() => setActiveTab('CHORES')}>
+          📜 Today's Quests ({todaysChores.length})
+        </button>
+        <button className={`tab-btn ${activeTab === 'REWARDS' ? 'active' : ''}`} onClick={() => setActiveTab('REWARDS')}>
+          🎁 Claim Rewards
+        </button>
       </div>
 
       <div className="content-grid">
         {activeTab === 'CHORES' ? (
-          items.filter(i => !i.rewardItem).map(chore => (
-            <div key={chore.id} className={`card chore-card ${chore.completed ? 'done' : ''}`}>
-              <h3>{chore.taskName}</h3>
-              <p className="day-tag">📅 {chore.dayOfWeek}</p>
-              <span className="point-tag">💎 {chore.points} Pts</span>
-              {!chore.completed ? (
-                <button className="claim-btn" onClick={() => completeChore(chore.id)}>I Completed This! 🎉</button>
-              ) : <p className="complete-status">✅ Finished!</p>}
+          todaysChores.length > 0 ? (
+            todaysChores.map(chore => (
+              <div key={chore.id} className={`card chore-card ${chore.completed ? 'done' : ''}`}>
+                <h3>{chore.taskName}</h3>
+                <span className="point-tag">💎 {chore.points} Pts</span>
+                {!chore.completed && !chore.pending ? (
+                  <button className="claim-btn" onClick={() => completeChore(chore.id)}>I Completed This! 🎉</button>
+                ) : chore.pending ? (
+                  <p className="pending-status">⏳ Waiting for Parent Approval...</p>
+                ) : <p className="complete-status">✅ Mission Accomplished!</p>}
+              </div>
+            ))
+          ) : (
+            <div className="welcome-card clear-day">
+              <h2>🎉 All clear for {currentDay}! No active quests left for today. Go play! 🎮</h2>
             </div>
-          ))
+          )
         ) : (
-          items.filter(i => i.rewardItem).map(reward => (
+          rewardItems.map(reward => (
             <div key={reward.id} className="card reward-card">
               <h3>{reward.taskName}</h3>
               <span className="point-tag cost">💰 Costs: {reward.points} Pts</span>
-              <button className="redeem-btn" disabled={totalPoints < reward.points}>Redeem Reward 🚀</button>
+              <button className="redeem-btn" disabled={staticBalance < reward.points}>Redeem Reward 🚀</button>
             </div>
           ))
         )}
